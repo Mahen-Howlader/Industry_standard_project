@@ -7,11 +7,11 @@ let server: Server;
 
 const startServer = async () => {
     try {
-        await mongoose.connect("mongodb+srv://mongooesData:IfAq5QfWZlWS9NB4@cluster0.iagloem.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+        await mongoose.connect(`${envVars.DB_URL}`);
 
         console.log("Mongodb Conected..");
 
-        server = app.listen(5000, () => {
+        server = app.listen(envVars.PORT, () => {
             console.log("Server is listening to port 5000");
         });
     } catch (error) {
@@ -30,7 +30,7 @@ process.on("unhandledRejection", (err) => {
         })
     }
     process.exit(1)
-
+ 
 });
 
 process.on("uncaughtException", (err) => {
