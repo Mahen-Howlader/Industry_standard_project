@@ -7,4 +7,4 @@ export const catchAsync = (fn: AsyncHandler) => (req: Request, res: Response, ne
         console.log(err);
         next(err);
     })
-}
+};

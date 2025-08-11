@@ -16,4 +16,4 @@ const credentialsLogin = catchAsync(async (req: Request, res: Response, next: Ne
 
 export const AuthController = {
     credentialsLogin
-}
+};

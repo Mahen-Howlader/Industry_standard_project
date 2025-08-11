@@ -1,0 +1,24 @@
+import { NextFunction, Request, Response } from "express";
+import AppError from "../errorHelpers/appError";
+import { verifyToken } from "../utils/jwt";
+import { envVars } from "../../config/env";
+import { JwtPayload } from "jsonwebtoken";
+
+export const checkAuth = (...checkAuths: string[]) => (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const accessToken = req.headers.authorization;
+        if (!accessToken) {
+            throw new AppError(403, "No Token Recived")
+        }
+        const verifyedToken = verifyToken(accessToken, envVars.JWT_ACCESS_SECREAT) as unknown as JwtPayload;
+        if (!checkAuths.includes(verifyedToken.role)) {
+            throw new AppError(403, "You are not permitted to view this route!!!");
+        };
+        req.user = verifyedToken;
+        next();
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+
+}
